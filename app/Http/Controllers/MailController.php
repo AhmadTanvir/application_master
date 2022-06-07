@@ -4,25 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Mail\MailSending;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class MailController extends Controller
 {
-    public function sendMail(Request $request)
-    {
-        $data = $request->validate([
-            'name'=>'required',
-            'email'=>'required|email'
-        ]);
-        $email = $data['email'];
+    public function sendEmail(Request $request) {
+        $toEmail    =   Auth::user()->email;
+        $data       =   array(
+            "message"    =>   'Hello How Are You??'
+        );
 
-        $body = [
-            'name'=>$data['name'],
-            'url_a'=>'https://www.bacancytechnology.com/',
-            'url_b'=>'https://www.bacancytechnology.com/tutorials/laravel',
-        ];
+        // pass dynamic message to mail class
+        Mail::to($toEmail)->send(new MailSending($data));
 
-        Mail::to($email)->send(new MailSending($body));
-        return back()->with('status','Mail sent successfully');;
+        if(Mail::failures() !== 0) {
+            return back()->with("success", "E-mail sent successfully!");
+        }
+
+        else {
+            return back()->with("failed", "E-mail not sent!");
+        }
     }
 }

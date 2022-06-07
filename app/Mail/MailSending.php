@@ -11,16 +11,16 @@ class MailSending extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $body;
+    public $data;
 
     /**
      * Create a new message instance.
      *
-     * @param $body
+     * @param $data
      */
-    public function __construct($body)
+    public function __construct($data)
     {
-        $this->body = $body;
+        $this->data = $data;
     }
 
     /**
@@ -30,6 +30,6 @@ class MailSending extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.MailSending')->with('body',$this->body);
+        return $this->markdown('emails.MailSending')->with('data',$this->data);
     }
 }
