@@ -9,10 +9,11 @@ use Illuminate\Support\Facades\Mail;
 
 class MailController extends Controller
 {
-    public function sendEmail(Request $request) {
+    public function sendMail(Request $request) {
         $toEmail    =   Auth::user()->email;
+        $user    =   Auth::user()->name;
         $data       =   array(
-            "message"    =>   'Hello How Are You??'
+            "message"    =>   'Sending Test Mail By '.$user.' Ahmad With Dynamic Data'
         );
 
         // pass dynamic message to mail class

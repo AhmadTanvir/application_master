@@ -15,7 +15,7 @@
                     @endif
 
                     {{ __('You are logged in!') }}
-                    <button id="send">Send Mail</button>
+                    <a href="javascript:void(0)" id="send">Send Mail</a>
                 </div>
             </div>
         </div>
@@ -23,8 +23,10 @@
 </div>
 @endsection
 @section('script')
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script>
-        $('#send').on('click', function () {
+
+        $(document).on('click', '#send', function () {
                 $.ajax({
                     url: "{{ route('send.email') }}",
                     type: "POST",
@@ -32,6 +34,7 @@
                     dataType: "json",
                     success: function (data) {
                         console.log(data)
+                        alert('success');
                         // if (data) {
                         //
                         // } else {
